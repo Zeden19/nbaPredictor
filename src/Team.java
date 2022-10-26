@@ -13,6 +13,13 @@ public class Team {
         this.conference = conference;
     }
 
+    public Team(String name, String conference) {
+        this.name = name;
+        this.conference = conference;
+        offensiveRating = -1;
+        defensiveRating = -1;
+    }
+
     public String toString() {
         return "Team: " + name + " | Conference: " + conference + "\nOffensive Rating: "  + offensiveRating
                 + " | Defensive Rating: " + defensiveRating + "\nWins: " + win + " | Losses:" + loss;
@@ -29,4 +36,13 @@ public class Team {
     public String getName() {return name;}
 
     public String getConference() {return conference;}
+
+    public void setOffensiveRating(int offensiveRating) {this.offensiveRating = offensiveRating;}
+
+    public void setDefensiveRating(int defensiveRating) {this.defensiveRating = defensiveRating;}
+
+
+
+
 }
+

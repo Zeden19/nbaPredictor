@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.net.*;
 import java.util.Scanner;
@@ -10,39 +11,21 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         HashMap<String, Team> teams = new HashMap<>();
-        Team tor = new Team(0, 0, "Toronto Raptors", "East");
-        teams.put("tor", tor);
-        System.out.println(teams.get("tor"));
+        WebsiteData teamData = new WebsiteData("https://www.balldontlie.io/api/v1/teams");
+        String stringData = teamData.getData();
 
-
-
-        try {
-            URL url = new URL("https://www.balldontlie.io/api/v1/teams/");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.connect();
-
-            int responseCode = connection.getResponseCode();
-
-            if (responseCode != 200) {
-                throw new RuntimeException("Oops");
-            } else{
-                StringBuilder informationString = new StringBuilder();
-                Scanner scanner = new Scanner(url.openStream());
-
-                while (scanner.hasNext()) {
-                    informationString.append(scanner.nextLine());
-                }
-                scanner.close();
-
-                System.out.println(informationString);
-            }
-
+        String[] teamArray = stringData.split("},");
+        for (String team : teamArray) {
+            String[] teamInfo = team.split(",");
+            String abbreviation = teamInfo[1].split(":")[1].replace("\"", "");
+            String conference = teamInfo[3].split(":")[1].replace("\"", "");
+            String name = teamInfo[5].split(":")[1].replace("\"", "");
+            teams.put(abbreviation, new Team(name, conference));
         }
-    catch (Exception e) {
-        throw e;
-        }
+
+        System.out.println(teams.get("GSW"));
+
     }
-
 }
+
 
